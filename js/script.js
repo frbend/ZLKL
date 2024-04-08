@@ -33,7 +33,7 @@ $(document).ready(function() {
                 var list = $('<ul class="list-group list-group-flush">');
 
                 //Loop přes data a přidá je do listu
-                $.each(response, function(key, value) {
+                $.each(response.data, function(key, value) {
                     var listItem = $('<li class="list-group-item">').text(key + ': ' + value);
                     list.append(listItem);
                 });

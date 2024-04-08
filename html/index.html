@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- css -->
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Aplikace na zobrazování dat z databáze</h1>
+    <!-- textové pole, pouze čísla od 1 do 100 -->
+    <div class="input-group mb-3">
+        <input type="number" id="rowNumber" name="rowNumber" class="form-control" min="1" max="100" placeholder="Enter row number">
+        <div class="input-group-append">
+            <!-- Tlačítko na odeslání požadavku -->
+          <button class="btn btn-primary" type="button" id="testButton">Submit</button>
+        </div>
+      </div>
+      
+      <!-- Výsledná tabulka s odpovědí ze serveru -->
+    <div id="result"></div>
+
+    <!-- Bootstrap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Javascript -->
+    <script src="../js/script.js"></script>
+</body>
+</html>

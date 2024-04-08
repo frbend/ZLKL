@@ -1,5 +1,5 @@
 <?php
-//Konfigurace databáze
+// Konfigurace databáze
 $host = "localhost";
 $username = "root";
 $password = "root";
@@ -8,46 +8,47 @@ $database = "ZLKL_sample_db";
 // Připojení k databázi
 $conn = new mysqli($host, $username, $password, $database);
 
-//Kontrola připojení
+// Kontrola připojení
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-//Check jestli je request POST
+// Kontrola, zda byla použita metoda POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //Get číslo řádku z POST dat
+    // Získání čísla řádku z POST dat
     $rowNumber = $_POST["rowNumber"];
-    
-    if ($rowNumber > 100) {
-        echo json_encode(array("error" => "Hodnota textového pole: ($rowNumber) přesahuje povolený limit."));
+
+    // Inicializace proměnných pro odpověď
+    $response = array();
+
+    // Kontrola, zda číslo řádku je platné celé číslo a zda je v povoleném rozsahu
+    if (!filter_var($rowNumber, FILTER_VALIDATE_INT) || $rowNumber < 1 || $rowNumber > 100) {
+        $response["ok"] = false;
+        $response["err"] = "Hodnota textového pole ($rowNumber) není platné číslo v rozmezí od 1 do 100.";
     } else {
-        //SQL query pro fetch vybraneho řádku z tabulky "seznam_uživatelů"
-        $sql = "SELECT ID, Jméno, Přijmení, Rok_narození FROM seznam_uživatelů WHERE ID = ?";
-        
-        //Příprava SQL dotazu
-        $stmt = $conn->prepare($sql);
-        
-        //Bind parametr
-        $stmt->bind_param("i", $rowNumber); // "i" pro integer
-        
-        // Execute the statement
-        $stmt->execute();
-        
-        //Get výsledek
-        $result = $stmt->get_result();
-        
-        //Kontrola zda byl nějaký řádek vrácen
-        if ($result->num_rows > 0) {
-            //Fetch řádek
+        // Spuštění jediné SQL dotazu pro načtení vybraného řádku
+        $sql = "SELECT ID, Jméno, Přijmení, Rok_narození FROM seznam_uživatelů WHERE ID = $rowNumber";
+
+        // Provedení SQL dotazu
+        $result = $conn->query($sql);
+
+        // Kontrola, zda byly vráceny nějaké řádky
+        if ($result && $result->num_rows > 0) {
+            // Načtení řádku
             $row = $result->fetch_assoc();
-            //Output řádku v JSON formátu
-            echo json_encode($row);
+            $response["ok"] = true;
+            $response["err"] = "";
+            $response["data"] = $row;
         } else {
-            echo json_encode(array("error" => "Nebyla nalezena žádná data pro tento řádek $rowNumber"));
+            $response["ok"] = false;
+            $response["err"] = "Nebyla nalezena žádná data pro tento řádek $rowNumber";
         }
     }
+
+    // Výstup odpovědi ve formátu JSON
+    echo json_encode($response);
 }
 
-//Ukončí připojení
+// Ukončení připojení
 $conn->close();
 ?>

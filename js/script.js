@@ -25,26 +25,33 @@ $(document).ready(function() {
                 console.log(response);  //Hodnota odpověďi ve formátu JSON v console logu
                 //Vymaže předchozí výsledek
                 $('#result').empty();
+                // Kontrola, zda je odpověď úspěšná
+                if (response.ok) {
+                    // Vytvoření Bootstrap karty pro zobrazení dat
+                    var card = $('<div class="card">');
+                    var cardBody = $('<div class="card-body">');
+                    var title = $('<h5 class="card-title">').text('Uživatelská data');
+                    var list = $('<ul class="list-group list-group-flush">');
 
-                //Bootstrap karta na zobrazení dat
-                var card = $('<div class="card">');
-                var cardBody = $('<div class="card-body">');
-                var title = $('<h5 class="card-title">').text('User Data');
-                var list = $('<ul class="list-group list-group-flush">');
+                    // Procházení dat v odpovědi a jejich přidání do seznamu
+                    $.each(response.data, function(key, value) {
+                        var listItem = $('<li class="list-group-item">').text(key + ': ' + value);
+                        list.append(listItem);
+                    });
 
-                //Loop přes data a přidá je do listu
-                $.each(response.data, function(key, value) {
-                    var listItem = $('<li class="list-group-item">').text(key + ': ' + value);
-                    list.append(listItem);
-                });
-                
-                //Přidá data do bootstrap karty
-                cardBody.append(title);
-                cardBody.append(list);
-                card.append(cardBody);
+                    // Přidání prvků do těla karty
+                    cardBody.append(title);
+                    cardBody.append(list);
 
-                //Append kartu do výsledného divu s ID result
-                $('#result').append(card);
+                    // Přidání těla karty do karty
+                    card.append(cardBody);
+
+                    // Přidání karty do výsledného divu s ID result
+                    $('#result').append(card);
+                } else {
+                    // Zobrazení chybové zprávy
+                    $('#result').text(response.err);
+                }
             },
             error: function(xhr, status, error) {
                 console.error(error);  //Zobrazí errory v consoli

@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $response = array();
 
     // Kontrola, zda číslo řádku je platné celé číslo a zda je v povoleném rozsahu
-    if (!filter_var($rowNumber, FILTER_VALIDATE_INT) || $rowNumber < 1 || $rowNumber > 100) {
+    if (!preg_match('/^(100|\d{1,2})$/', $rowNumber)) {
         $response["ok"] = false;
         $response["err"] = "Hodnota textového pole ($rowNumber) není platné číslo v rozmezí od 1 do 100.";
     } else {
@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Výstup odpovědi ve formátu JSON
     echo json_encode($response);
 }
+
 
 // Ukončení připojení
 $conn->close();

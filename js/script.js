@@ -4,7 +4,7 @@ $(document).ready(function() {
         var rowNumber = $('#rowNumber').val(); // Získá hodnotu z textového pole
 
         // Kontrola zda je hodnota z textového pole mezi 1 a 100
-        if (!/^(100|\d{1,2})$/.test(rowNumber)) {
+        if (!/^(100|\d{1,2})$/.test(String(rowNumber))) {
             // Zobrazí popup zprávu
             alert("Zadejte číslo mezi 1 a 100");
 
@@ -27,7 +27,7 @@ $(document).ready(function() {
                 $('#result').empty();
 
                 // Kontrola, zda je odpověď úspěšná
-                if (response.ok) {
+                if (response.ok ?? false) {
                     // Vytvoření Bootstrap karty pro zobrazení dat
                     var card = $('<div class="card">');
                     var cardBody = $('<div class="card-body">');

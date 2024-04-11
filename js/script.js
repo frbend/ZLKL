@@ -4,7 +4,7 @@ $(document).ready(function() {
         var rowNumber = $('#rowNumber').val(); // Získá hodnotu z textového pole
 
         // Kontrola zda je hodnota z textového pole mezi 1 a 100
-        if (!/^(100|\d{1,2})$/.test(String(rowNumber))) {
+        if (!/^(100|[1-9]\d|[1-9])$/.test(String(rowNumber))) {
             // Zobrazí popup zprávu
             alert("Zadejte číslo mezi 1 a 100");
 
